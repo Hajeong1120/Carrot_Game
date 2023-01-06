@@ -68,11 +68,6 @@ body {
   top: -450px;
 }
 
-.game__item {
-  display: none;
-  z-index: 1;
-}
-
 .carrot:hover,
 .bug:hover {
   scale: 1.1;
