@@ -69,6 +69,34 @@ body {
 }
 
 .carrot:hover,
-.bug:hover {
+.bug:hover,
+#replay:hover {
   scale: 1.1;
+}
+
+#game__alert {
+  font-size: 35px;
+  position: relative;
+}
+
+#game__bord {
+  position: relative;
+  margin: auto;
+  top: -80px;
+  width: 450px;
+  height: 200px;
+  background-color: rgb(210, 149, 84);
+  border: 6px solid black;
+  visibility: hidden;
+}
+
+#game__context,
+#replay {
+  position: relative;
+  text-align: center;
+  top: -240px;
+  font-weight: 800;
+  font-size: 40px;
+  color: rgb(179, 16, 16);
+  visibility: hidden;
 }
