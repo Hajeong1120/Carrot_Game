@@ -1,5 +1,30 @@
 "strict";
 
+let audio;
+function playAudio(audio) {
+  switch (audio) {
+    case "carrot":
+      audio = new Audio("sound/carrot_pull.mp3");
+      break;
+    case "bug":
+      audio = new Audio("sound/bug_pull.mp3");
+      break;
+    case "alert":
+      audio = new Audio("sound/alert.wav");
+      break;
+    case "win":
+      audio = new Audio("sound/game_win.mp3");
+      break;
+    default:
+      audio = new Audio("sound/bg.mp3");
+  }
+  audio.play();
+}
+
+//사운드
+const BGM = document.getElementById("bg");
+window.addEventListener("load", () => {});
+
 //Timer
 const GameTimer = document.querySelector(".game__timer");
 let time = 20;
@@ -12,6 +37,8 @@ let Timer = setInterval(() => {
   //타임 아웃
   if (time < 0) {
     clearInterval(Timer);
+    GameAlert("Time Over");
+    playAudio("alert");
   }
 }, 1000);
 
@@ -31,24 +58,37 @@ function onloadGameItems(image, imageName, num) {
     const img = new Image();
     img.src = `img/${imageName}.png`;
     img.className = `${imageName}`;
-    img.style = `position: absolute; left:${itemLeft}px; top:${itemTop}px;`;
+    img.style = `position: absolute; left:${itemLeft}px; top:${itemTop}px; `;
     img.id = `${index + 1}`;
     field.appendChild(img);
   }
 }
 
-const button = document.querySelector(".game__btn");
-
+//당근과 벌레 로드
 onloadGameItems(".carrot", "carrot", 8);
 onloadGameItems(".bug", "bug", 8);
+
+//플레이 정지
+const button = document.querySelector(".game__btn");
+let state = "play";
+
+button.addEventListener("click", () => {
+  if (state === "play") {
+    playAudio();
+  } else if (state === "stop") {
+    clearInterval(Timer);
+    GameAlert("Stop Game");
+    playAudio("alert");
+  }
+  button.innerHTML = `<i class="fa-solid fa-stop"></i>`;
+  state = "stop";
+});
 
 //당근 개수 표시
 const counter = document.querySelector(".game__couter");
 const carrot = document.querySelectorAll(".carrot");
-// const InitCarrotCount = Array.prototype.slice.call(carrot);
 const carrotArray = Array.prototype.slice.call(carrot);
 counter.innerHTML = carrotArray.length;
-
 const bug = document.querySelectorAll(".bug");
 const bugArray = Array.prototype.slice.call(bug);
 
@@ -59,19 +99,19 @@ for (let i = 0; i < carrotArray.length; i++) {
     if (Array.isArray(carrotArray)) {
       for (let i = 0; i < carrotArray.length; i++) {
         if (i == event.target.id) {
-          // carrotArray.splice(i, 1);
-
           counter.innerHTML = count--;
           let carrotImg = document.getElementById(`${i}`);
           carrotImg.parentNode.removeChild(carrotImg);
+          playAudio("carrot");
         }
       }
     }
 
     if (counter.innerHTML == "0") {
       //승리! 문구
-
       GameAlert("You Win");
+      playAudio("alert");
+      playAudio("win");
     }
   });
 }
@@ -94,6 +134,8 @@ for (let i = 0; i < bugArray.length; i++) {
     if (Array.isArray(bugArray)) {
       clearInterval(Timer);
       GameAlert("Game Over");
+      playAudio("bug");
+      playAudio("alert");
     }
   });
 }
@@ -103,8 +145,6 @@ replay.addEventListener("click", () => {
   location.reload();
 });
 
-//재생버튼 - 처음에 누르면 게임 시작 / 중간에 누르면 게임 중지 / 다시시작 버튼 활성화
-//브금, 효과음
 /**아쉬운 점
  * 1. 옵저버 카운터에 사용하면 될 것 같은데 어떻게 접근해야할지 어렵다ㅠㅠ
  * 2. 2중 for문을 사용했다. BigO가 커질 것
