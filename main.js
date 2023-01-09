@@ -23,7 +23,10 @@ function playAudio(audio) {
 
 //사운드
 const BGM = document.getElementById("bg");
-window.addEventListener("load", () => {});
+window.addEventListener("load", () => {
+  BGM.loop = true;
+  BGM.autoplay = true;
+});
 
 //Timer
 const GameTimer = document.querySelector(".game__timer");
@@ -71,9 +74,6 @@ onloadGameItems(".bug", "bug", 8);
 //플레이 정지
 const button = document.querySelector(".game__btn");
 
-if (true) {
-  playAudio();
-}
 button.addEventListener("click", () => {
   button.innerHTML = `<i class="fa-solid fa-stop"></i>`;
   clearInterval(Timer);
@@ -150,4 +150,7 @@ replay.addEventListener("click", () => {
  * 4. filter를 이용해 배열에서 특정한 요소를 삭제하고 재정렬하는 방식으로 작업하고 싶었는데
  * 그러지 못했다. 결국 배열은 줄어들지 않고 카운터만 줄어드는 방식으로 작업했는데..
  * 지금 게임에는 상관없지만, 만일 당근이 줄어들었을 때의 배열 데이터가 필요하다면 다시 작업해야 할 것.
+ *
+ * 해결 못한 문제 : BGM이 제대로 재생되지 않는다. 무조건 로드를 다시 한 번 해야하고 오디오의 play함수에서 DOM 문제가 발생한다..
+ *
  * **/
