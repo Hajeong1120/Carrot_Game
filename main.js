@@ -70,18 +70,15 @@ onloadGameItems(".bug", "bug", 8);
 
 //플레이 정지
 const button = document.querySelector(".game__btn");
-let state = "play";
 
+if (true) {
+  playAudio();
+}
 button.addEventListener("click", () => {
-  if (state === "play") {
-    playAudio();
-  } else if (state === "stop") {
-    clearInterval(Timer);
-    GameAlert("Stop Game");
-    playAudio("alert");
-  }
   button.innerHTML = `<i class="fa-solid fa-stop"></i>`;
-  state = "stop";
+  clearInterval(Timer);
+  GameAlert("Stop Game");
+  playAudio("alert");
 });
 
 //당근 개수 표시
@@ -109,6 +106,7 @@ for (let i = 0; i < carrotArray.length; i++) {
 
     if (counter.innerHTML == "0") {
       //승리! 문구
+      clearInterval(Timer);
       GameAlert("You Win");
       playAudio("alert");
       playAudio("win");
